@@ -1,0 +1,71 @@
+############################################
+# .NET / Visual Studio
+############################################
+
+# Build results
+bin/
+obj/
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# VS Code (optional)
+.vscode/
+.vscode/*
+
+############################################
+# ASP.NET Core / Publish
+############################################
+
+# Publish output
+**/publish/
+**/PublishProfiles/
+**/*.pubxml
+**/*.pubxml.user
+
+# IIS Express
+.vs/config/
+
+############################################
+# Logs / artifacts
+############################################
+*.log
+logs/
+*.tmp
+*.temp
+
+############################################
+# Testing
+############################################
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+############################################
+# OS files
+############################################
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+############################################
+# NuGet
+############################################
+*.nupkg
+
+############################################
+# Local overrides (optional)
+############################################
+appsettings.*.local.json
