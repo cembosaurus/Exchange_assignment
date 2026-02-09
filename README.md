@@ -120,7 +120,7 @@ Conversion policy is validated at startup:
 - no empty strings
 - each value must parse into the `CurrencyName` enum
 
-If validation fails, the app logs the failures and stops with `Environment.ExitCode = 1`.
+If validation fails, the app prints the failures to stderr (Console.Error) and stops with `Environment.ExitCode = 1`.
 
 This is intentional: invalid policy config is an **operator error** and should fail fast.
 
