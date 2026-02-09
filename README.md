@@ -28,7 +28,7 @@ This solution is intentionally minimal but **functionally complete** for the ass
    - Calls `GET https://open.er-api.com/v6/latest/{BASE}`.
 
 5. **Caches the upstream response**
-   - Stores the computed rate in `IMemoryCache` until the upstream `time_next_update_unix` (best-effort).
+   - Caches the exchange-rate snapshot (pair rate) in IMemoryCache (keyed by FROM/TO) until time_next_update_unix (best effort).
    - Uses a shared async lock (`SemaphoreSlim`) to avoid request stampede when the cache expires.
 
 6. **Applies API-side rate limiting**
