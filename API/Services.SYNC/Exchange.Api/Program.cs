@@ -37,10 +37,16 @@ builder.Services.AddHttpClient<ExchangeHTTPClient>((sp, client) =>
 // ASSIGNMENT: enforcing specific conversion policy (right now AUD -> USD):
 builder.Services.AddConversionPolicyValidation(builder.Configuration);
 
+// per IP rate limiting:
+builder.Services.AddExchangeRateLimiting();
+
 
 
 var app = builder.Build();
 
+
+
+app.UseExchangeRateLimiting();
 
 
 // validation of conversion policy - fast fail at startup:

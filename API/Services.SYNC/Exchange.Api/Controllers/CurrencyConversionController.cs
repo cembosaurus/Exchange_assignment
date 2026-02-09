@@ -1,6 +1,8 @@
 ﻿using Business.ExchangeService.DTOs;
+using Exchange.Api.Config;
 using Exchange.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 
 
@@ -9,6 +11,7 @@ namespace Exchange.Api.Controllers
 
     [ApiController]
     [Route("ExchangeService")]
+    [EnableRateLimiting(RateLimitingModule.PolicyName)]
     public class CurrencyConversionController : ControllerBase
     {
 
