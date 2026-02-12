@@ -1,3 +1,46 @@
+# Task description:
+
+Create a HTTP API to convert between 2 currencies making use of a public API.
+
+### Requirements:
+
+Create a C# API in ASP.NET Core that can convert from Australian Dollars to US dollars.
+Your API must make use of the free API service at exchangerate-api to convert from
+
+Australian dollar (AUD) to US dollars (USD) (https://www.exchangerate-
+api.com/docs/free)
+
+#### It is expected that your API would respond to the following curl request:
+
+curl -X 'POST' \
+'http://localhost:port/ExchangeService' \
+-H 'accept: text/plain' \
+-H 'Content-Type: application/json' \
+-d '{
+"amount": 5,
+"inputCurrency": "AUD",
+"outputCurrency": "USD"
+}'
+
+
+#### Expected Json Response Payload from the request:
+
+{
+"amount": 5,
+"inputCurrency": "AUD",
+"outputCurrency": "USD",
+"value": 3.28
+}
+
+* the value is dependent on the current exchange rate
+
+
+---
+# Solution:
+---
+
+
+
 # ExchangeService API (AUD → USD)
 
 A small ASP.NET Core Web API that converts an amount from **AUD** to **USD** using the free endpoint from **ExchangeRate-API** (`open.er-api.com`).
