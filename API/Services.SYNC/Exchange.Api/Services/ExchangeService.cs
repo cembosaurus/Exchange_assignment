@@ -110,7 +110,7 @@ namespace Exchange.Api.Services
 
 
 
-        private async Task<T> StoreRateInCacheAsync<T>(string cacheKey, Func<Task<(T Value, DateTimeOffset ExpiresAt)>> factory, CancellationToken ct) where T : notnull
+        private async Task<T> StoreRateInCacheAsync<T>(string cacheKey, Func<Task<(T Value, DateTimeOffset ExpiresAt)>> httpCall, CancellationToken ct) where T : notnull
         {
             // if rate is NOT expired in cache,
             // then get rate from cache and bypass http 'refresh rate' call,
@@ -126,7 +126,9 @@ namespace Exchange.Api.Services
                 if (_cache.TryGetValue(cacheKey, out cached) && cached is not null)
                     return cached!;
 
-                var (rateModel, expiresAt) = await factory();
+                // if we are here, then cache is expired and we are the first request that tries to refresh it,
+                // so we should make http call to get new rate:
+                var (rateModel, expiresAt) = await httpCall();
 
                 _cache.Set(cacheKey, rateModel, expiresAt);
                 return rateModel;
@@ -158,11 +160,11 @@ namespace Exchange.Api.Services
 
 
 
-        private static bool TryParseCurrencyName(string? currencyString, out CurrencyName currencyEnum)
+        private static bool TryParseCurrencyName(string? currency, out CurrencyName currencyEnum)
         {
-            currencyString = (currencyString ?? string.Empty).Trim();
+            currency = (currency ?? string.Empty).Trim();
 
-            return Enum.TryParse(currencyString, ignoreCase: false, out currencyEnum);
+            return Enum.TryParse(currency, ignoreCase: false, out currencyEnum);
         }
 
 

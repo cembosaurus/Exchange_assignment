@@ -20,6 +20,7 @@ namespace Business.ExchangeService.Services
             if (rate <= 0)
                 throw new ArgumentOutOfRangeException(nameof(rate), "Rate must be greater than zero !");
 
+
             var rawValue = (cf == ct) ? amount : amount * rate;
 
             var roundedValue = Math.Round(rawValue, DefaultDecimalPlaces, MidpointRounding.AwayFromZero);
