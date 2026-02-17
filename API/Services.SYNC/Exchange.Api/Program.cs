@@ -4,6 +4,7 @@ using Business.ExchangeService.Http.Services.Interfaces;
 using Business.ExchangeService.Services;
 using Business.ExchangeService.Services.Interfaces;
 using Exchange.Api.Config;
+using Exchange.Api.Middlewares;
 using Exchange.Api.Services;
 using Exchange.Api.Services.Interfaces;
 using System.Net.Http.Headers;
@@ -45,6 +46,7 @@ builder.Services.AddExchangeRateLimiting();
 var app = builder.Build();
 
 
+app.UseMiddleware<ExceptionHandlerMW>();
 
 app.UseExchangeRateLimiting();
 

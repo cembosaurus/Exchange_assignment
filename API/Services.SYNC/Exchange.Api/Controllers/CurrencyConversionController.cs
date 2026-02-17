@@ -34,25 +34,9 @@ namespace Exchange.Api.Controllers
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
         public async Task<ActionResult<ConvertResponseDTO>> Convert([FromBody] ConvertRequestDTO request, CancellationToken ct)
         {
-            try
-            {
-                var result = await _exchangeService.ConvertAsync(request, ct);
-                return Ok(result);
-            }
-            catch (ArgumentException ex)
-            {
-                // invalid currency codes or policy mismatch:
-                return BadRequest(ex.Message);
-            }
-            catch (HttpRequestException ex)
-            {
-                return StatusCode(StatusCodes.Status503ServiceUnavailable, ex.Message);
-            }
-            catch (InvalidOperationException ex)
-            {
-                // upstream returned unexpected payload / missing rate
-                return StatusCode(StatusCodes.Status502BadGateway, ex.Message);
-            }
+            var result = await _exchangeService.ConvertAsync(request, ct);
+
+            return Ok(result);
         }
 
 
