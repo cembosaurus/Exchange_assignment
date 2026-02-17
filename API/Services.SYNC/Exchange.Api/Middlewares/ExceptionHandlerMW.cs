@@ -26,7 +26,7 @@
             }
             catch (OperationCanceledException) when (context.RequestAborted.IsCancellationRequested)
             {
-                // if client closes browser or loses connection during the processing the request no need to log it as error.
+                // if client's connection lost, no need for error log
                 // f.e: when client is set up with HttpCompletionOption.ResponseHeadersRead and disconnects before reading the response body,
                 // it will trigger this exception.
             }
@@ -34,6 +34,10 @@
             {
                 if (context.Response.HasStarted)
                 {
+                    // response already started:
+                    // header was sent and maybe some paret of body,
+                    // so we can't change the status code or write a new response body
+                    // just log and rethrow:
                     _logger.LogWarning(ex, "Response already started; cannot write error response.");
 
                     throw;
@@ -42,7 +46,8 @@
 
                 var (status, title, type) = Map(ex);
 
-                // 400 as warning, and 500 as error:
+                // Log 400 as warning:
+                // Log 500 as error:
                 if (status >= 500)
                     _logger.LogError(ex, "Unhandled exception mapped to {StatusCode}", status);
                 else

@@ -12,6 +12,9 @@ namespace Business.ExchangeService.Services
 
         private const int DefaultDecimalPlaces = 2;
 
+
+        // method needs only AMOUNT and RATE to calculate the converted value,
+        // but I added the input and output currency for better traceability in the response:
         public ConvertResponseDTO Convert(CurrencyName cf, CurrencyName ct, decimal amount, decimal rate)
         {
             if (amount < 0)
@@ -23,6 +26,7 @@ namespace Business.ExchangeService.Services
 
             var rawValue = (cf == ct) ? amount : amount * rate;
 
+            // round the calculated value to 2 decimal places:
             var roundedValue = Math.Round(rawValue, DefaultDecimalPlaces, MidpointRounding.AwayFromZero);
 
 

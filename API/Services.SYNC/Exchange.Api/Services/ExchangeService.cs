@@ -20,6 +20,8 @@ namespace Exchange.Api.Services
         private readonly IMemoryCache _cache;
         private const string CacheKeyFormat = "exrate_snapshot_{0}_{1}_v1";
 
+        // only unique elements are allowed by Hashset,
+        // so we can be sure that there are no duplicates in allowed input and output currencies:
         private readonly HashSet<CurrencyName> _allowedInputs;
         private readonly HashSet<CurrencyName> _allowedOutputs;
 
@@ -91,6 +93,9 @@ namespace Exchange.Api.Services
 
             return await StoreRateInCacheAsync(
                     cacheKey,
+                    // function sends HTTP request to get new rate
+                    // RETURNS expiration datetime
+                    // and rate model to be stored in cache :
                     async () =>
                     {
                         var rateDTO = await _httpService.GetExRate(currencyFROM.ToString(), ct);
@@ -126,6 +131,7 @@ namespace Exchange.Api.Services
                 if (_cache.TryGetValue(cacheKey, out cached) && cached is not null)
                     return cached!;
 
+                // make HTTP call (lambda function) if no data in cahce:
                 // if we are here, then cache is expired and we are the first request that tries to refresh it,
                 // so we should make http call to get new rate:
                 var (rateModel, expiresAt) = await httpCall();
